@@ -25,7 +25,7 @@ cp .env.example .env
 # Edit .env with your API keys
 
 # Start the server
-python run-server.py
+python server.py
 # Or directly: uvicorn server:app --host 0.0.0.0 --port 8000 --reload
 ```
 
