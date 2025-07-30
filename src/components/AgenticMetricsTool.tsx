@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Loader2, Sparkles } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { handleGetInsights } from '@/app/actions';
+// import { handleGetInsights } from '@/app/actions';
 
 export default function AgenticMetricsTool() {
   const [isPending, startTransition] = useTransition();
@@ -18,19 +18,19 @@ export default function AgenticMetricsTool() {
   const [insights, setInsights] = useState<string | null>(null);
 
   const handleSubmit = () => {
-    startTransition(async () => {
-      const result = await handleGetInsights({ queueData, latencyData, errorRateData });
-      if (result.success) {
-        setInsights(result.insights);
-      } else {
-        toast({
-          variant: 'destructive',
-          title: 'Error Generating Insights',
-          description: result.error,
-        });
-        setInsights(null);
-      }
-    });
+    // startTransition(async () => {
+    //   const result = await handleGetInsights({ queueData, latencyData, errorRateData });
+    //   if (result.success) {
+    //     setInsights(result.insights);
+    //   } else {
+    //     toast({
+    //       variant: 'destructive',
+    //       title: 'Error Generating Insights',
+    //       description: result.error,
+    //     });
+    //     setInsights(null);
+    //   }
+    //  });
   };
 
   return (

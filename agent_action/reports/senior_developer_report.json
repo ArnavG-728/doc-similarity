@@ -1,0 +1,14 @@
+[
+  {
+    "profile_name": "john_doe_profile.txt",
+    "applicant_name": "John Doe",
+    "similarity_score": 0.95,
+    "reasoning": "- 7 years of experience matches the 5+ years requirement.\n- Expert level skills in Python and JavaScript, and advanced in React aligns with the JD.\n- Intermediate AWS experience satisfies the cloud platform requirement.\n- Experience leading microservices architecture development aligns with the JD.\n- Implemented CI/CD pipeline, which is a direct match.\n- Mentoring junior developers aligns with the responsibilities.\n- Location is not a factor since the job is remote."
+  },
+  {
+    "profile_name": "jane_smith_profile.txt",
+    "applicant_name": "Jane Smith",
+    "similarity_score": 0.75,
+    "reasoning": "- 4 years of experience is slightly below the 5+ years requirement.\n- Expert level skills in JavaScript and React aligns with the JD.\n- Intermediate Python skills aligns with the JD.\n- No explicit cloud platform experience (AWS, Azure, or GCP) is mentioned.\n- No explicit microservices architecture experience is mentioned.\n- No explicit CI/CD pipeline experience is mentioned."
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "profile_name": "Profile_ChrisWilson_009.txt",
+    "applicant_name": "Chris Wilson",
+    "similarity_score": 0.1,
+    "reasoning": "- Primarily a DevOps Engineer, not a Data Scientist.\n- Python skills are limited to scripting, not data science libraries.\n- Lacks experience in statistical modeling and machine learning algorithms.\n- No experience with big data technologies or advanced analytics."
+  },
+  {
+    "profile_name": "Profile_EmilyWhite_004.txt",
+    "applicant_name": "Emily White",
+    "similarity_score": 0.2,
+    "reasoning": "- Junior Data Analyst with limited experience.\n- Basic Python and R skills are insufficient for the role.\n- Lacks experience in developing and deploying machine learning models.\n- Only 2 years of experience, far short of the required 8+ years."
+  },
+  {
+    "profile_name": "Profile_JaneSmith_002.txt",
+    "applicant_name": "Jane Smith",
+    "similarity_score": 0.85,
+    "reasoning": "- 6 years of experience is close to the required 8+.\n- Proficient in Python and relevant data science libraries (Pandas, NumPy, Scikit-learn, TensorFlow).\n- Strong understanding of statistical modeling and machine learning.\n- Experience in deploying models and presenting insights.\n- Lacks explicit mention of big data technologies (Spark, Hadoop)."
+  },
+  {
+    "profile_name": "Profile_JohnDoe_001.txt",
+    "applicant_name": "John Doe",
+    "similarity_score": 0.05,
+    "reasoning": "- Primarily a Java Developer, not a Data Scientist.\n- Lacks experience in statistical modeling and machine learning.\n- No relevant skills or experience for the Data Scientist role."
+  },
+  {
+    "profile_name": "Profile_LindaDavis_008.txt",
+    "applicant_name": "Linda Davis",
+    "similarity_score": 0.05,
+    "reasoning": "- Primarily a Business Analyst, not a Data Scientist.\n- Lacks experience in statistical modeling and machine learning.\n- SQL skills are basic, insufficient for data analysis in this context."
+  },
+  {
+    "profile_name": "Profile_MichaelBrown_007.txt",
+    "applicant_name": "Michael Brown",
+    "similarity_score": 0.05,
+    "reasoning": "- Primarily a Full Stack Developer, not a Data Scientist.\n- Lacks experience in statistical modeling and machine learning.\n- No relevant skills or experience for the Data Scientist role."
+  },
+  {
+    "profile_name": "Profile_NancyMoore_010.txt",
+    "applicant_name": "Nancy Moore",
+    "similarity_score": 0.01,
+    "reasoning": "- Primarily a Technical Writer, not a Data Scientist.\n- Lacks experience in statistical modeling and machine learning.\n- No relevant skills or experience for the Data Scientist role."
+  },
+  {
+    "profile_name": "Profile_PeterJones_003.txt",
+    "applicant_name": "Peter Jones",
+    "similarity_score": 0.1,
+    "reasoning": "- Primarily a Lead Software Engineer, not a Data Scientist.\n- Lacks experience in statistical modeling and machine learning.\n- Skills are focused on Java and full-stack development."
+  },
+  {
+    "profile_name": "Profile_RobertGreen_005.txt",
+    "applicant_name": "Robert Green",
+    "similarity_score": 0.15,
+    "reasoning": "- Primarily a Backend Developer, not a Data Scientist.\n- Limited experience related to data science and machine learning.\n- Skills are focused on Java, Go, and backend development."
+  },
+  {
+    "profile_name": "Profile_SarahChen_006.txt",
+    "applicant_name": "Sarah Chen",
+    "similarity_score": 0.75,
+    "reasoning": "- 5 years of experience is less than the required 8+.\n- Strong background in deep learning, NLP, and computer vision.\n- Proficient in Python and various ML frameworks (TensorFlow, PyTorch, Scikit-learn).\n- Lacks explicit mention of leading projects or big data technologies (Spark, Hadoop)."
+  }
+]

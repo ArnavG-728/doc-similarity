@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Frontend-Backend Integration Test</title>
+</head>
+<body>
+    <h1>Frontend-Backend Integration Test</h1>
+    <button onclick="testConnection()">Test Backend Connection</button>
+    <div id="result"></div>
+
+    <script>
+        async function testConnection() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing connection...';
+            
+            try {
+                const response = await fetch('http://localhost:8000/run-agent', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        jd_filename: 'test_jd.txt',
+                        jd_content: 'Job Title: Senior Developer\nSkills: Python, React, AWS',
+                        profiles_content: {
+                            'profile1.txt': 'Name: John Doe\nSkills: Python, React, AWS\nExperience: 5 years'
+                        }
+                    }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `
+                        <h3>✅ Connection Successful!</h3>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <h3>❌ HTTP Error: ${response.status}</h3>
+                        <p>${await response.text()}</p>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h3>❌ Connection Failed</h3>
+                    <p>Error: ${error.message}</p>
+                    <p>Make sure the backend server is running on http://localhost:8000</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html> 
