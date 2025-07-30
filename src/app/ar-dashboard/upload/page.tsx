@@ -23,6 +23,7 @@ export default function UploadPage() {
   const [storedJds, setStoredJds] = useState<UploadedFile[]>([]);
   const [storedProfiles, setStoredProfiles] = useState<UploadedFile[]>([]);
   const [isUploading, setIsUploading] = useState(false);
+  const [backendStatus, setBackendStatus] = useState<'checking' | 'online' | 'offline'>('checking');
   const { toast } = useToast();
 
   useEffect(() => {
@@ -38,30 +39,53 @@ export default function UploadPage() {
         description: "Could not read files from local storage.",
       });
     }
+
+    // Check backend server status
+    fetch("http://localhost:8000/health")
+      .then(() => setBackendStatus('online'))
+      .catch(() => setBackendStatus('offline'));
   }, [toast]);
 
   const uploadToBackend = async (file: File): Promise<UploadedFile> => {
     const formData = new FormData();
     formData.append("file", file);
 
-    const res = await fetch("http://localhost:8000/process-upload", {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      const res = await fetch("http://localhost:8000/process-upload", {
+        method: "POST",
+        body: formData,
+      });
 
-    if (!res.ok) {
-      throw new Error(`Upload failed for ${file.name}`);
+      if (!res.ok) {
+        throw new Error(`Upload failed for ${file.name} - Server returned ${res.status}`);
+      }
+
+      const data = await res.json();
+      if (data.status === "error") {
+        throw new Error(data.message || `Failed to process ${file.name}`);
+      }
+
+      return {
+        name: data.filename,
+        content: data.content,
+      };
+    } catch (error) {
+      console.error('Backend upload failed, trying fallback:', error);
+      
+      // Fallback: Read file content directly in browser
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const content = e.target?.result as string;
+          resolve({
+            name: file.name,
+            content: content,
+          });
+        };
+        reader.onerror = () => reject(new Error(`Failed to read file ${file.name}`));
+        reader.readAsText(file);
+      });
     }
-
-    const data = await res.json();
-    if (data.status !== "success") {
-      throw new Error(data.message || `Failed to process ${file.name}`);
-    }
-
-    return {
-      name: data.filename,
-      content: data.content,
-    };
   };
 
   const handleUpload = async () => {
@@ -99,10 +123,11 @@ export default function UploadPage() {
         action: <CheckCircle className="text-green-500" />,
       });
     } catch (error: any) {
+      console.error('Upload error:', error);
       toast({
         variant: "destructive",
         title: "Upload Failed",
-        description: error.message || "Error uploading files.",
+        description: error.message || "Error uploading files. Check console for details.",
       });
     } finally {
       setIsUploading(false);
@@ -140,6 +165,18 @@ export default function UploadPage() {
             <CardDescription>
               Select job descriptions and consultant profiles to upload and process.
             </CardDescription>
+            <div className="flex items-center gap-2 text-sm">
+              <span>Backend Status:</span>
+              {backendStatus === 'checking' && (
+                <span className="text-yellow-600">Checking...</span>
+              )}
+              {backendStatus === 'online' && (
+                <span className="text-green-600">Online (Full processing available)</span>
+              )}
+              {backendStatus === 'offline' && (
+                <span className="text-orange-600">Offline (Basic file reading only)</span>
+              )}
+            </div>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid md:grid-cols-2 gap-6">
