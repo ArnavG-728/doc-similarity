@@ -143,7 +143,7 @@ async def run_agent(request: Request):
         ranked_profiles = ranking_agent.rank_profiles(comparisons)
 
         # Optional: Send email
-        if ar_requestor_email and recruiter_email:
+        if ar_requestor_email:
             try:
                 print("📧 Running Communication Agent...")
                 comm_agent = CommunicationAgent()
@@ -151,13 +151,13 @@ async def run_agent(request: Request):
                     ranked_profiles=ranked_profiles,
                     jd_info={"title": jd_filename},
                     ar_requestor_email=ar_requestor_email,
-                    recruiter_email=recruiter_email
+                    recruiter_email=recruiter_email or ar_requestor_email  # Use AR email as fallback for recruiter
                 )
                 print("✅ Email notification sent.")
             except Exception as e:
                 print(f"⚠️ Email failed: {e}")
         else:
-            print("ℹ️ Skipping email: missing AR or recruiter email")
+            print("ℹ️ Skipping email: missing AR requestor email")
 
         # Optional: Generate detailed report (only if requested)
         generate_report = data.get("generate_report", False)

@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
 import { runAgentWorkflow } from "@/lib/api";
+import { useAuth } from "@/hooks/use-auth";
 
 interface UploadedFile {
   name: string;
@@ -41,6 +42,7 @@ type WorkflowStep = "idle" | "comparing" | "ranking" | "sending-email" | "comple
 
 export default function ComparePage() {
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const [jobDescriptionFiles, setJobDescriptionFiles] = useState<UploadedFile[]>([]);
   const [profileFiles, setProfileFiles] = useState<UploadedFile[]>([]);
@@ -121,6 +123,15 @@ export default function ComparePage() {
       return;
     }
 
+    if (!user?.email) {
+      toast({
+        variant: "destructive",
+        title: "Not Logged In",
+        description: "Please log in to receive email notifications.",
+      });
+      return;
+    }
+
     setMatchResults(null);
     setGeneratedEmail(null);
     setCurrentStep("comparing");
@@ -134,10 +145,12 @@ export default function ComparePage() {
         profilesContent[profile.name] = profile.content;
       });
 
+      console.log('📧 Sending email to logged-in user:', user?.email);
       const response = await runAgentWorkflow({
         jd_filename: selectedJd.name,
         jd_content: selectedJd.content,
         profiles_content: profilesContent,
+        ar_email: user?.email, // Send email to the logged-in user
       });
 
       setCurrentStep("ranking");
@@ -166,7 +179,7 @@ export default function ComparePage() {
               ${matches.map((match, idx) =>
                 `<li><strong>${idx + 1}. ${match.profileName}</strong> (${match.applicantName}) - ${match.matchScore}% Match</li>`).join("")}
             </ul>
-            <p><em>Email notifications have been sent.</em></p>
+            <p><em>Email notifications have been sent to ${user?.email || 'your email'}.</em></p>
           `
         });
 
