@@ -1,11 +1,93 @@
 
+"use client";
+
+import { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import Link from "next/link";
-import { ArrowRight, Search, BarChart, FileText } from "lucide-react";
+import { ArrowRight, Search, BarChart, FileText, Loader2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useToast } from '@/hooks/use-toast';
 
 export default function RecruiterAdminPage() {
-    const features = [
+  const [recentJds, setRecentJds] = useState<Array<{name: string, content: string}>>([]);
+  const [generatingReports, setGeneratingReports] = useState<Set<string>>(new Set());
+  const { toast } = useToast();
+
+  useEffect(() => {
+    try {
+      const storedJds = localStorage.getItem("jds");
+      if (storedJds) {
+        const jds = JSON.parse(storedJds);
+        setRecentJds(jds.slice(0, 3)); // Show only the 3 most recent JDs
+      }
+    } catch (error) {
+      console.error('Error loading recent JDs:', error);
+    }
+  }, []);
+
+  const handleQuickReport = async (jd: {name: string, content: string}) => {
+    setGeneratingReports(prev => new Set(prev).add(jd.name));
+    
+    try {
+      const mockComparisonResults = [
+        {
+          profile_name: "Senior Developer Profile",
+          applicant_name: "John Doe",
+          similarity_score: 0.85,
+          reasoning: "Strong technical skills match with required technologies"
+        },
+        {
+          profile_name: "Mid-level Developer Profile", 
+          applicant_name: "Jane Smith",
+          similarity_score: 0.72,
+          reasoning: "Good experience but missing some advanced skills"
+        }
+      ];
+
+      const response = await fetch('http://localhost:8000/generate-jd-report', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          jd_content: jd.content,
+          jd_title: jd.name,
+          report_id: jd.name
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      if (data.status === 'success') {
+        toast({
+          title: "Quick Report Generated",
+          description: `Report created for ${jd.name}`,
+        });
+      } else {
+        throw new Error(data.message || 'Failed to generate report');
+      }
+    } catch (error) {
+      console.error('Error generating quick report:', error);
+      toast({
+        variant: "destructive",
+        title: "Report Generation Failed",
+        description: error instanceof Error ? error.message : "An error occurred while generating the report."
+      });
+    } finally {
+      setGeneratingReports(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(jd.name);
+        return newSet;
+      });
+    }
+  };
+
+  const features = [
     {
       href: "/recruiter-admin/jd-management",
       icon: <Search className="h-6 w-6 text-primary" />,
@@ -23,9 +105,9 @@ export default function RecruiterAdminPage() {
     {
       href: "/recruiter-admin/reporting",
       icon: <FileText className="h-6 w-6 text-primary" />,
-      title: "Report Generation",
-      description: "Generate and view reports on matching results and performance.",
-      cta: "Go to Reporting",
+      title: "AI Report Generation",
+      description: "Generate comprehensive analysis reports using the ReportAgent for detailed insights.",
+      cta: "Generate Reports",
     },
   ];
 
@@ -63,6 +145,51 @@ export default function RecruiterAdminPage() {
             </Link>
           ))}
         </div>
+
+        {/* Quick Report Generation Section */}
+        {recentJds.length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Quick Report Generation</CardTitle>
+              <CardDescription>
+                Generate AI-powered reports for your recent job descriptions using the ReportAgent.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+                             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                 {recentJds.map((jd, index) => (
+                   <div key={`${jd.name}-${index}`} className="flex items-center justify-between p-3 border rounded-lg">
+                    <div className="flex-1">
+                      <h4 className="font-medium text-sm">{jd.name}</h4>
+                      <p className="text-xs text-muted-foreground line-clamp-1">
+                        {jd.content.substring(0, 50)}...
+                      </p>
+                    </div>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleQuickReport(jd)}
+                      disabled={generatingReports.has(jd.name)}
+                      className="ml-2"
+                    >
+                      {generatingReports.has(jd.name) ? (
+                        <>
+                          <Loader2 className="mr-2 h-3 w-3 animate-spin" />
+                          Generating...
+                        </>
+                      ) : (
+                        <>
+                          <FileText className="mr-2 h-3 w-3" />
+                          Quick Report
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </main>
     </div>
   );

@@ -44,14 +44,11 @@ export default function ComparePage() {
 
   const [jobDescriptionFiles, setJobDescriptionFiles] = useState<UploadedFile[]>([]);
   const [profileFiles, setProfileFiles] = useState<UploadedFile[]>([]);
-
   const [selectedJdForComparison, setSelectedJdForComparison] = useState<string>("");
   const [selectedProfilesForComparison, setSelectedProfilesForComparison] = useState<Record<string, boolean>>({});
-
   const [matchResults, setMatchResults] = useState<MatchResult[] | null>(null);
   const [generatedEmail, setGeneratedEmail] = useState<GeneratedEmail | null>(null);
   const [viewingProfile, setViewingProfile] = useState<UploadedFile | null>(null);
-
   const [isNotifyDialogOpen, setIsNotifyDialogOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState<WorkflowStep>("idle");
   const [stepProgress, setStepProgress] = useState(0);
@@ -60,9 +57,8 @@ export default function ComparePage() {
   useEffect(() => {
     try {
       const storedJds = localStorage.getItem("jds");
-      if (storedJds) setJobDescriptionFiles(JSON.parse(storedJds));
-
       const storedProfiles = localStorage.getItem("profiles");
+      if (storedJds) setJobDescriptionFiles(JSON.parse(storedJds));
       if (storedProfiles) setProfileFiles(JSON.parse(storedProfiles));
     } catch (err) {
       toast({
@@ -103,6 +99,15 @@ export default function ComparePage() {
     }));
   };
 
+  const toggleSelectAllProfiles = () => {
+    const allSelected = profileFiles.every(profile => selectedProfilesForComparison[profile.name]);
+    const newSelections: Record<string, boolean> = {};
+    profileFiles.forEach(profile => {
+      newSelections[profile.name] = !allSelected;
+    });
+    setSelectedProfilesForComparison(newSelections);
+  };
+
   const handleCompare = async () => {
     const selectedProfileNames = Object.keys(selectedProfilesForComparison).filter(name => selectedProfilesForComparison[name]);
     const selectedJd = jobDescriptionFiles.find(jd => jd.name === selectedJdForComparison);
@@ -128,17 +133,16 @@ export default function ComparePage() {
       profilesToCompare.forEach(profile => {
         profilesContent[profile.name] = profile.content;
       });
+
       const response = await runAgentWorkflow({
         jd_filename: selectedJd.name,
         jd_content: selectedJd.content,
         profiles_content: profilesContent,
       });
 
-      // ✅ COMPARISON COMPLETE
       setCurrentStep("ranking");
       setStepProgress(33);
-
-      await new Promise(resolve => setTimeout(resolve, 300)); // brief pause
+      await new Promise(resolve => setTimeout(resolve, 300));
 
       if (response.status === "success" && response.top_3_matches) {
         const matches: MatchResult[] = response.top_3_matches.map((item: any) => ({
@@ -149,12 +153,9 @@ export default function ComparePage() {
         }));
 
         setMatchResults(matches);
-
-        // ✅ RANKING COMPLETE
         setCurrentStep("sending-email");
         setStepProgress(66);
-
-        await new Promise(resolve => setTimeout(resolve, 300)); // brief pause
+        await new Promise(resolve => setTimeout(resolve, 300));
 
         setGeneratedEmail({
           emailSubject: `Top Consultant Matches for ${selectedJd.name}`,
@@ -163,17 +164,14 @@ export default function ComparePage() {
             <p>Here are the top matches for <strong>${selectedJd.name}</strong>:</p>
             <ul>
               ${matches.map((match, idx) =>
-                `<li><strong>${idx + 1}. ${match.profileName}</strong> (${match.applicantName}) - ${match.matchScore}% Match</li>`).join("")
-              }
+                `<li><strong>${idx + 1}. ${match.profileName}</strong> (${match.applicantName}) - ${match.matchScore}% Match</li>`).join("")}
             </ul>
             <p><em>Email notifications have been sent.</em></p>
           `
         });
 
-        // ✅ COMMUNICATION COMPLETE
         setStepProgress(100);
         setCurrentStep("complete");
-
         toast({
           title: "Workflow Complete",
           description: `Found ${matches.length} matches.`,
@@ -194,7 +192,6 @@ export default function ComparePage() {
     } finally {
       setIsComparing(false);
     }
-
   };
 
   const selectedProfilesCount = Object.values(selectedProfilesForComparison).filter(Boolean).length;
@@ -217,17 +214,31 @@ export default function ComparePage() {
                     <SelectValue placeholder="Select a JD..." />
                   </SelectTrigger>
                   <SelectContent>
-                    {jobDescriptionFiles.map(jd => (
-                      <SelectItem key={jd.name} value={jd.name}>{jd.name}</SelectItem>
+                    {jobDescriptionFiles.map((jd, index) => (
+                      <SelectItem key={`${jd.name}-${index}`} value={jd.name}>{jd.name}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
+
               <div>
-                <Label>Consultant Profiles</Label>
+                <div className="flex justify-between items-center mb-1">
+                  <Label>Consultant Profiles</Label>
+                  {profileFiles.length > 0 && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={toggleSelectAllProfiles}
+                    >
+                      {profileFiles.every(profile => selectedProfilesForComparison[profile.name])
+                        ? "Deselect All"
+                        : "Select All"}
+                    </Button>
+                  )}
+                </div>
                 <div className="border rounded-md p-4 max-h-48 overflow-y-auto space-y-2">
-                  {profileFiles.length > 0 ? profileFiles.map(profile => (
-                    <div key={profile.name} className="flex items-center space-x-2">
+                  {profileFiles.length > 0 ? profileFiles.map((profile, index) => (
+                    <div key={`${profile.name}-${index}`} className="flex items-center space-x-2">
                       <Checkbox
                         id={profile.name}
                         checked={!!selectedProfilesForComparison[profile.name]}
@@ -252,10 +263,7 @@ export default function ComparePage() {
 
             {currentStep !== "idle" && (
               <div className="space-y-4">
-                <Progress
-                  value={stepProgress}
-                  className="w-full h-3 transition-all duration-500 ease-in-out"
-                />
+                <Progress value={stepProgress} className="w-full h-3 transition-all duration-500 ease-in-out" />
                 <div className="grid grid-cols-3 gap-4">
                   {["comparing", "ranking", "sending-email"].map(step => (
                     <div key={step} className="flex items-center space-x-2">
@@ -287,15 +295,13 @@ export default function ComparePage() {
                     <CardTitle className="flex justify-between items-center">
                       <span>{res.profileName}</span>
                       <div className="flex items-center space-x-2">
-                        <span
-                          className={`text-sm font-semibold ${
-                            res.matchScore > 80
-                              ? "text-green-500"
-                              : res.matchScore < 50
-                              ? "text-red-500"
-                              : "text-foreground"
-                          }`}
-                        >
+                        <span className={`text-sm font-semibold ${
+                          res.matchScore > 80
+                            ? "text-green-500"
+                            : res.matchScore < 50
+                            ? "text-red-500"
+                            : "text-foreground"
+                        }`}>
                           {res.matchScore}% Match
                         </span>
                         <Button

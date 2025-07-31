@@ -239,9 +239,9 @@ export default function UploadPage() {
               <h3 className="font-medium">Job Descriptions ({storedJds.length})</h3>
               <div className="border rounded-md p-2 space-y-1 max-h-60 overflow-y-auto">
                 {storedJds.length ? (
-                  storedJds.map((file) => (
+                  storedJds.map((file, index) => (
                     <div
-                      key={file.name}
+                      key={`${file.name}-${index}`}
                       className="flex items-center justify-between p-2 rounded-md hover:bg-muted"
                     >
                       <span className="text-sm">{file.name}</span>
@@ -265,9 +265,9 @@ export default function UploadPage() {
               <h3 className="font-medium">Consultant Profiles ({storedProfiles.length})</h3>
               <div className="border rounded-md p-2 space-y-1 max-h-60 overflow-y-auto">
                 {storedProfiles.length ? (
-                  storedProfiles.map((file) => (
+                  storedProfiles.map((file, index) => (
                     <div
-                      key={file.name}
+                      key={`${file.name}-${index}`}
                       className="flex items-center justify-between p-2 rounded-md hover:bg-muted"
                     >
                       <span className="text-sm">{file.name}</span>

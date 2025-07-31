@@ -112,8 +112,8 @@ export default function ViewPage() {
                 <SelectValue placeholder={`Select a ${view === 'profiles' ? 'profile' : 'JD'}...`} />
               </SelectTrigger>
               <SelectContent>
-                {files.length > 0 ? files.map(option => (
-                  <SelectItem key={option.name} value={option.name}>
+                {files.length > 0 ? files.map((option, index) => (
+                  <SelectItem key={`${option.name}-${index}`} value={option.name}>
                      {option.name}
                   </SelectItem>
                 )) : (
