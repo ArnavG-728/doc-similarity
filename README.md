@@ -6,14 +6,36 @@ A full-stack application that uses AI agents to compare job descriptions with co
 
 - **Frontend**: React/Next.js UI for uploading files and running comparisons
 - **Backend**: Python FastAPI server with AI agents for document comparison
+- **Database**: MongoDB integration with Supabase fallback support
 - **Agents**: 
   - Comparison Agent: Compares JD with profiles using Google Gemini
   - Ranking Agent: Ranks profiles by similarity score
   - Communication Agent: Sends email notifications
+  - Report Agent: Generates detailed analysis reports
 
 ## Quick Start
 
-### 1. Start the Backend Server
+### 1. Set Up Database
+
+The project supports both MongoDB and Supabase. MongoDB is recommended for better performance.
+
+**Option A: MongoDB (Recommended)**
+```bash
+# Install MongoDB locally or use MongoDB Atlas
+# Copy environment template
+cp env.example .env.local
+
+# Edit .env.local with your MongoDB URI and other settings
+# Set USE_MONGODB=true to enable MongoDB
+```
+
+**Option B: Supabase (Fallback)**
+```bash
+# Use existing Supabase setup
+# Set USE_MONGODB=false in .env.local
+```
+
+### 2. Start the Backend Server
 
 ```bash
 # Install Python dependencies
@@ -21,12 +43,13 @@ cd agent_action
 pip install -r requirements.txt
 
 # Set up environment variables
-cp .env.example .env
-# Edit .env with your API keys
+cp env.example .env
+# Edit .env with your API keys and MongoDB settings
 
-# Start the server
+# Start the FastAPI server with MongoDB support
+python fastapi_server.py
+# Or start the original LangGraph server
 python run-server.py
-# Or directly: uvicorn server:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 ### 2. Start the Frontend
