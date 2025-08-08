@@ -41,6 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signIn = async ({ email, role }: { email: string; role: Role }) => {
+    
     const newUser: User = {
       id: `user-${Date.now()}`,
       email,
