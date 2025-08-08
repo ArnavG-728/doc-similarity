@@ -1,0 +1,14 @@
+[
+  {
+    "profile_name": "DevOps_Engineer_Resume_Sophia_Lee.pdf",
+    "applicant_name": "Sophia Lee",
+    "similarity_score": 0.92,
+    "reasoning": "- 5+ years of experience in DevOps roles (meets 3+ years requirement).\n- Strong experience with CI/CD tools like GitHub Actions (matches Jenkins, GitHub Actions, GitLab CI).\n- Proficiency with containerization (Docker, Kubernetes) through building Docker-based microservices.\n- Experience with AWS cloud platform via managing AWS infrastructure with CloudFormation.\n- Hands-on experience with Infrastructure-as-Code (Terraform) through automated Kubernetes cluster provisioning.\n- Knowledge of monitoring tools like ELK and Prometheus (matches Prometheus, Grafana, or ELK Stack).\n- Automated scaling policies for high availability, indicating strong problem-solving skills.\n- Enforced cloud security measures and IAM policies, showcasing security best practices.\n- Experience with cost management.\n- Detail-oriented, proactive and good communication skills. Bonus Skills."
+  },
+  {
+    "profile_name": "DevOps_Engineer_Resume_Michael_Smith.pdf",
+    "applicant_name": "Michael Smith",
+    "similarity_score": 0.9,
+    "reasoning": "- 3+ years of experience in DevOps roles (meets the requirement).\n- Strong experience with CI/CD tools like Jenkins and GitLab CI (matches Jenkins, GitHub Actions, GitLab CI).\n- Proficiency with containerization (Docker, Kubernetes).\n- Experience with AWS and GCP cloud platforms.\n- Hands-on experience with Infrastructure-as-Code (Terraform).\n- Knowledge of monitoring tools like Prometheus and Grafana (matches Prometheus, Grafana, or ELK Stack).\n- Automated builds and deployments across AWS & GCP and autoscaling strategies.\n- Strengthened DevSecOps policies across teams, showcasing security best practices.\n- Conducted cost optimization initiatives, bonus skills."
+  }
+]

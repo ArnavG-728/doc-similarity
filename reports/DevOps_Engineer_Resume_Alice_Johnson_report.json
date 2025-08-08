@@ -1,0 +1,26 @@
+[
+  {
+    "profile_name": "DevOps_Engineer_Resume_Michael_Smith.pdf",
+    "applicant_name": "Michael Smith",
+    "similarity_score": 0.55,
+    "reasoning": "JD Requirements Analysis: Cannot completely analyze. PDF text extraction is unsuccessful.\nProfile Capabilities Analysis: Cannot completely analyze. PDF text extraction is unsuccessful.\nDetailed Gap Analysis: Since content extraction failed a gap analysis cannot be performed.\nWeighted Scoring Calculation: Due to a lack of content analysis scoring will be set to weak match at 0.55."
+  },
+  {
+    "profile_name": "DevOps_Engineer_Resume_John_Doe.pdf",
+    "applicant_name": "John Doe",
+    "similarity_score": 0.55,
+    "reasoning": "JD Requirements Analysis: Cannot completely analyze. PDF text extraction is unsuccessful.\nProfile Capabilities Analysis: Cannot completely analyze. PDF text extraction is unsuccessful.\nDetailed Gap Analysis: Since content extraction failed a gap analysis cannot be performed.\nWeighted Scoring Calculation: Due to a lack of content analysis scoring will be set to weak match at 0.55."
+  },
+  {
+    "profile_name": "DevOps_Engineer_Resume_Alice_Johnson.pdf",
+    "applicant_name": "Alice Johnson",
+    "similarity_score": 0.55,
+    "reasoning": "JD Requirements Analysis: Cannot completely analyze. PDF text extraction is unsuccessful.\nProfile Capabilities Analysis: Cannot completely analyze. PDF text extraction is unsuccessful.\nDetailed Gap Analysis: Since content extraction failed a gap analysis cannot be performed.\nWeighted Scoring Calculation: Due to a lack of content analysis scoring will be set to weak match at 0.55."
+  },
+  {
+    "profile_name": "Common_SDE_agents.pdf",
+    "applicant_name": "N/A",
+    "similarity_score": 0.55,
+    "reasoning": "JD Requirements Analysis: Cannot completely analyze. PDF text extraction is unsuccessful.\nProfile Capabilities Analysis: Cannot completely analyze. PDF text extraction is unsuccessful.\nDetailed Gap Analysis: Since content extraction failed a gap analysis cannot be performed.\nWeighted Scoring Calculation: Due to a lack of content analysis scoring will be set to weak match at 0.55."
+  }
+]

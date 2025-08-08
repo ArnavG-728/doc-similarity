@@ -1,0 +1,20 @@
+[
+  {
+    "profile_name": "DevOps_Engineer_Resume_Alice_Johnson.pdf",
+    "applicant_name": "Alice Johnson",
+    "similarity_score": 0.92,
+    "reasoning": "- Strong alignment with core technical skills (CI/CD, Docker, Kubernetes, AWS/Azure).\n- Experience with IaC (Terraform, Ansible) aligns perfectly.\n- 4 years of experience meets the '3+' years requirement.\n- Demonstrated proficiency with monitoring tools (Prometheus, Grafana, ELK).\n- Bonus: Experience with microservices and DevSecOps."
+  },
+  {
+    "profile_name": "DevOps_Engineer_Resume_Michael_Smith.pdf",
+    "applicant_name": "Michael Smith",
+    "similarity_score": 0.88,
+    "reasoning": "- Good match with core technical skills (CI/CD, Docker, Kubernetes, AWS/GCP).\n- Experience with IaC (Terraform).\n- Demonstrated proficiency with monitoring tools (Prometheus, Grafana).\n- Experience in cost optimization is a plus.\n- Strong experience with DevSecOps.\n- 4 years of experience meets the '3+' years requirement."
+  },
+  {
+    "profile_name": "DevOps_Engineer_Resume_Sophia_Lee.pdf",
+    "applicant_name": "Sophia Lee",
+    "similarity_score": 0.9,
+    "reasoning": "- Strong alignment with core technical skills (CI/CD, Docker, Kubernetes, AWS).\n- Experience with IaC (Terraform, CloudFormation).\n- 5 years of experience exceeds the '3+' years requirement.\n- Demonstrated proficiency with monitoring tools (Prometheus, ELK).\n- Good experience with Cloud Security.\n- Automated Kubernetes Cluster scaling is a plus."
+  }
+]

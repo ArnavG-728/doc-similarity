@@ -1,0 +1,20 @@
+[
+  {
+    "profile_name": "Profile_JohnDoe_001.txt",
+    "applicant_name": "John Doe",
+    "similarity_score": 0.95,
+    "reasoning": "- 8+ years Java experience (meets 7+ requirement).\n- Strong proficiency in Spring Boot, Spring Cloud (matches JD).\n- Extensive experience with Microservices and RESTful APIs (matches JD).\n- Hands-on experience with AWS, Docker, Kubernetes (matches JD).\n- Knowledge of PostgreSQL, MySQL (matches JD).\n- Experience with Jenkins, Git (covers CI/CD pipeline).\n- Mentions leading a team, implying good communication skills.\n- Includes Kafka and Agile Methodologies as extra skills."
+  },
+  {
+    "profile_name": "Profile_MichaelBrown_007.txt",
+    "applicant_name": "Michael Brown",
+    "similarity_score": 0.35,
+    "reasoning": "- 7 years experience (meets 7+ requirement).\n- Primarily a Node.js/React developer, not Java.\n- Lacks experience with Spring Boot, Spring Cloud, and Microservices architecture.\n- Has some AWS experience but not specifically related to microservices.\n- Uses PostgreSQL.\n- Overall, the skill set is not aligned with the Java/Microservices focus of the JD."
+  },
+  {
+    "profile_name": "Profile_NancyMoore_010.txt",
+    "applicant_name": "Nancy Moore",
+    "similarity_score": 0.1,
+    "reasoning": "- Technical Writer, not a Software Engineer.\n- Skills and experience are related to documentation, not Java development or microservices.\n- No overlap with the required skills and experience in the JD."
+  }
+]

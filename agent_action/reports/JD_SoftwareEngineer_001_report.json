@@ -1,0 +1,20 @@
+[
+  {
+    "profile_name": "Profile_JaneSmith_002.txt",
+    "applicant_name": "Jane Smith",
+    "similarity_score": 0.1,
+    "reasoning": "- Primarily focused on Data Science, Machine Learning, and statistical modeling.\n- Lacks Java development experience, Spring Boot/Cloud proficiency, and Microservices architecture expertise, which are core requirements of the job description.\n- Has experience with cloud platforms (AWS), but in the context of data storage (S3) rather than application deployment."
+  },
+  {
+    "profile_name": "Profile_LindaDavis_008.txt",
+    "applicant_name": "Linda Davis",
+    "similarity_score": 0.05,
+    "reasoning": "- Primarily a Business Analyst with a focus on requirements gathering and process mapping.\n- Lacks Java development experience, Spring Boot/Cloud proficiency, and Microservices architecture expertise.\n- The profile does not show experience with cloud platforms (AWS, Azure, GCP) or any relevant programming languages for the job description."
+  },
+  {
+    "profile_name": "Profile_MichaelBrown_007.txt",
+    "applicant_name": "Michael Brown",
+    "similarity_score": 0.45,
+    "reasoning": "- Full Stack Developer with experience in JavaScript, Node.js, and React.\n- Possesses experience with PostgreSQL, which aligns with the required database knowledge.\n- Has experience with cloud platforms (AWS EC2) which is a bonus.\n- Lacks core Java development experience and specific expertise in Spring Boot/Cloud and Microservices architecture, which are critical for the Senior Software Engineer role."
+  }
+]
