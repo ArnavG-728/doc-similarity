@@ -25,7 +25,8 @@ cp .env.example .env
 # Edit .env with your API keys
 
 # Start the server
-python run-server.py
+cd ..
+python server.py
 # Or directly: uvicorn server:app --host 0.0.0.0 --port 8000 --reload
 ```
 
@@ -34,6 +35,9 @@ python run-server.py
 ```bash
 # Install Node.js dependencies
 npm install
+
+In node_modules/pdf-parse/index.js
+update "let isDebugMode = false;"
 
 # Start the development server
 npm run dev
@@ -53,6 +57,8 @@ Create a `.env` file in the `agent_action` directory:
 
 ```env
 GOOGLE_API_KEY=your_google_api_key_here
+MONGODB_URI=your_mongodb_url
+DB_NAME=doc-similarity
 SENDER_EMAIL=your_email@gmail.com
 SMTP_PASSWORD=your_app_password_here
 AR_REQUESTOR_EMAIL=ar@example.com
