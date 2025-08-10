@@ -8,7 +8,17 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
-export default function LoginForm({ onLogin }: { onLogin: (data: any) => Promise<void> }) {
+export default function LoginForm({
+  onLogin,
+  role,
+  signupHref,
+  hideSignup,
+}: {
+  onLogin: (data: any) => Promise<void>;
+  role?: 'AR Requestor' | 'Recruiter Admin';
+  signupHref?: string;
+  hideSignup?: boolean;
+}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -32,7 +42,9 @@ export default function LoginForm({ onLogin }: { onLogin: (data: any) => Promise
     <div className="w-full max-w-sm">
       <Card>
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardTitle className="text-2xl">
+            {role ? `Login — ${role}` : 'Login'}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="grid gap-4">
@@ -77,12 +89,17 @@ export default function LoginForm({ onLogin }: { onLogin: (data: any) => Promise
               )}
             </Button>
 
-            <p className="text-sm text-center text-muted-foreground">
-              Don’t have an account?{' '}
-              <Link href="/signup" className="text-primary hover:underline">
-                Sign Up
-              </Link>
-            </p>
+            {!hideSignup && (
+              <p className="text-sm text-center text-muted-foreground">
+                Don’t have an account?{' '}
+                <Link
+                  href={signupHref || (role ? `/signup?role=${encodeURIComponent(role)}` : '/signup')}
+                  className="text-primary hover:underline"
+                >
+                  {role ? `Sign Up as ${role}` : 'Sign Up'}
+                </Link>
+              </p>
+            )}
           </form>
         </CardContent>
       </Card>
