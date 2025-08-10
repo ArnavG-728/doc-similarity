@@ -9,7 +9,7 @@ import pdf from 'pdf-parse';
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { title, pdfFile } = body;
+    const { title, pdfFile, content } = body;
 
     if (!title || !pdfFile?.data || !pdfFile?.mimeType) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -28,20 +28,38 @@ export async function POST(req: NextRequest) {
     if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 });
 
     // Decode PDF and extract text
-    let content = '';
-    try {
-      const fileBuffer = Buffer.from(pdfFile.data, 'base64');
-      const parsed = await pdf(fileBuffer);
-      content = parsed.text.trim();
-      console.log("✅ JD PDF text extracted:", content.slice(0, 200));
-    } catch (err) {
-      console.error("❌ JD PDF parsing failed:", err);
-      return NextResponse.json({ error: 'Unreadable PDF file' }, { status: 400 });
+    let extractedContent = '';
+    // Prefer pre-processed content from frontend (Python service or fallback)
+    if (typeof content === 'string' && content.trim().length > 0) {
+      extractedContent = content.trim();
+    } else if (pdfFile?.mimeType === 'application/pdf') {
+      try {
+        const fileBuffer = Buffer.from(pdfFile.data, 'base64');
+        const parsed = await pdf(fileBuffer);
+        extractedContent = parsed.text.trim();
+        console.log("✅ JD PDF text extracted:", extractedContent.slice(0, 200));
+      } catch (err) {
+        console.error("❌ JD PDF parsing failed:", err);
+        return NextResponse.json({ error: 'Unreadable PDF file' }, { status: 400 });
+      }
+    } else if (pdfFile?.mimeType?.startsWith('text/')) {
+      // Handle plain text uploads without relying on pdf-parse
+      try {
+        const buf = Buffer.from(pdfFile.data, 'base64');
+        extractedContent = buf.toString('utf-8').trim();
+      } catch (err) {
+        console.error('❌ TXT decoding failed:', err);
+      }
+    }
+
+    // As a safeguard, if we still have no content for non-PDFs, require content from client
+    if (!extractedContent) {
+      console.warn('⚠️ No text content extracted/provided for upload. Proceeding with empty content.');
     }
 
     const jd = await JobDescription.create({
       title,
-      content,
+      content: extractedContent,
       pdfFile: {
         data: pdfFile.data,
         mimeType: pdfFile.mimeType,

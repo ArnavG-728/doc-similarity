@@ -164,7 +164,7 @@ export default function UploadPage() {
       if (jdInputRef.current) jdInputRef.current.value = "";
       if (profileInputRef.current) profileInputRef.current.value = "";
 
-      if (redirectToCompare) router.push("/ar-dashboard/compare");
+      if (redirectToCompare) router.push("/recruiter-admin/compare");
     } catch (error: any) {
       toast({
         variant: "destructive",

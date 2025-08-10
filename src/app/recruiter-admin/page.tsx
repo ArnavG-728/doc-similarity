@@ -1,10 +1,9 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import Link from "next/link";
-import { ArrowRight, Search, BarChart, FileText, Loader2 } from "lucide-react";
+import { ArrowRight, Search, BarChart, FileText, Loader2, Upload, Wand2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from '@/hooks/use-toast';
@@ -15,15 +14,23 @@ export default function RecruiterAdminPage() {
   const { toast } = useToast();
 
   useEffect(() => {
-    try {
-      const storedJds = localStorage.getItem("jds");
-      if (storedJds) {
-        const jds = JSON.parse(storedJds);
-        setRecentJds(jds.slice(0, 3)); // Show only the 3 most recent JDs
+    // Fetch most recent JDs from API instead of relying on localStorage
+    const fetchRecent = async () => {
+      try {
+        const res = await fetch('/api/upload/job-description');
+        if (!res.ok) throw new Error('Failed to fetch job descriptions');
+        const data = await res.json();
+        // API already sorted by createdAt desc; take top 3 and map to name/content
+        const mapped = (Array.isArray(data) ? data : []).slice(0, 3).map((d: any) => ({
+          name: d.title ?? d.name ?? 'Untitled JD',
+          content: d.content ?? ''
+        }));
+        setRecentJds(mapped);
+      } catch (error) {
+        console.error('Error loading recent JDs:', error);
       }
-    } catch (error) {
-      console.error('Error loading recent JDs:', error);
-    }
+    };
+    fetchRecent();
   }, []);
 
   const handleQuickReport = async (jd: {name: string, content: string}) => {
@@ -88,6 +95,20 @@ export default function RecruiterAdminPage() {
   };
 
   const features = [
+    {
+      href: "/recruiter-admin/upload",
+      icon: <Upload className="h-6 w-6 text-primary" />,
+      title: "Upload Resumes",
+      description: "Upload Job Descriptions and Consultant Profiles to prepare them for comparison.",
+      cta: "Go to Upload",
+    },
+    {
+      href: "/recruiter-admin/compare",
+      icon: <Wand2 className="h-6 w-6 text-primary" />,
+      title: "Compare Profiles",
+      description: "Choose uploaded documents and run the AI-powered comparison workflow.",
+      cta: "Go to Compare",
+    },
     {
       href: "/recruiter-admin/jd-management",
       icon: <Search className="h-6 w-6 text-primary" />,
@@ -156,9 +177,9 @@ export default function RecruiterAdminPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-                             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                 {recentJds.map((jd, index) => (
-                   <div key={`${jd.name}-${index}`} className="flex items-center justify-between p-3 border rounded-lg">
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                {recentJds.map((jd, index) => (
+                  <div key={`${jd.name}-${index}`} className="flex items-center justify-between p-3 border rounded-lg">
                     <div className="flex-1">
                       <h4 className="font-medium text-sm">{jd.name}</h4>
                       <p className="text-xs text-muted-foreground line-clamp-1">

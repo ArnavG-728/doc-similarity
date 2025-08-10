@@ -7,7 +7,7 @@ import pdf from 'pdf-parse';
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { name, pdfFile } = body;
+    const { name, pdfFile, content } = body;
 
     // Validate required fields
     if (!name || !pdfFile?.data || !pdfFile?.mimeType) {
@@ -30,18 +30,30 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    // Convert base64 PDF to buffer
-    const fileBuffer = Buffer.from(pdfFile.data, 'base64');
-
     // Attempt to extract readable text
     let resumeText = '';
-    try {
-      const pdfData = await pdf(fileBuffer);
-      resumeText = pdfData.text.trim();
-      console.log("✅ PDF text extracted:", resumeText.slice(0, 200));
-    } catch (err) {
-      console.error("❌ PDF parsing failed:", err);
-      return NextResponse.json({ error: 'Unreadable PDF file' }, { status: 400 });
+    if (typeof content === 'string' && content.trim().length > 0) {
+      // Prefer text extracted upstream (Python service/frontend)
+      resumeText = content.trim();
+    } else if (pdfFile?.mimeType === 'application/pdf') {
+      // Convert base64 PDF to buffer and parse
+      try {
+        const fileBuffer = Buffer.from(pdfFile.data, 'base64');
+        const pdfData = await pdf(fileBuffer);
+        resumeText = pdfData.text.trim();
+        console.log("✅ PDF text extracted:", resumeText.slice(0, 200));
+      } catch (err) {
+        console.error("❌ PDF parsing failed:", err);
+        return NextResponse.json({ error: 'Unreadable PDF file' }, { status: 400 });
+      }
+    } else if (pdfFile?.mimeType?.startsWith('text/')) {
+      // Handle plain text uploads
+      try {
+        const buf = Buffer.from(pdfFile.data, 'base64');
+        resumeText = buf.toString('utf-8').trim();
+      } catch (err) {
+        console.error('❌ TXT decoding failed:', err);
+      }
     }
 
     // Save full PDF (as base64) + extracted text

@@ -1,4 +1,5 @@
 
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Header from "@/components/Header";
 import Link from "next/link";
@@ -9,17 +10,17 @@ export default function ARDashboardPage() {
     {
       href: "/ar-dashboard/upload",
       icon: <Upload className="h-6 w-6 text-primary" />,
-      title: "Upload Documents",
-      description: "Upload Job Descriptions and Consultant Profiles to prepare them for comparison.",
+      title: "Upload Job Description",
+      description: "Upload Job Descriptions to prepare them for comparison.",
       cta: "Go to Upload",
     },
-    {
-      href: "/ar-dashboard/compare",
-      icon: <Wand2 className="h-6 w-6 text-primary" />,
-      title: "Compare Profiles",
-      description: "Choose uploaded documents and run the AI-powered comparison workflow.",
-      cta: "Go to Compare",
-    },
+    // {
+    //   href: "/ar-dashboard/compare",
+    //   icon: <Wand2 className="h-6 w-6 text-primary" />,
+    //   title: "Compare Profiles",
+    //   description: "Choose uploaded documents and run the AI-powered comparison workflow.",
+    //   cta: "Go to Compare",
+    // },
     {
       href: "/ar-dashboard/view",
       icon: <FileText className="h-6 w-6 text-primary" />,
