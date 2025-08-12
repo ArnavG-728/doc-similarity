@@ -14,13 +14,13 @@ export default function ARDashboardPage() {
       description: "Upload Job Descriptions to prepare them for comparison.",
       cta: "Go to Upload",
     },
-    // {
-    //   href: "/ar-dashboard/compare",
-    //   icon: <Wand2 className="h-6 w-6 text-primary" />,
-    //   title: "Compare Profiles",
-    //   description: "Choose uploaded documents and run the AI-powered comparison workflow.",
-    //   cta: "Go to Compare",
-    // },
+    {
+      href: "/ar-dashboard/dashboard",
+      icon: <Wand2 className="h-6 w-6 text-primary" />,
+      title: "Dashboard",
+      description: "Dashboard for monitoring and managing job descriptions.",
+      cta: "Go to Dashboard",
+    },
     {
       href: "/ar-dashboard/view",
       icon: <FileText className="h-6 w-6 text-primary" />,
