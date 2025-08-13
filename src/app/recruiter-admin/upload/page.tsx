@@ -270,29 +270,8 @@ export default function UploadPage() {
             <CardTitle>Manage Uploaded Documents</CardTitle>
             <CardDescription>Review and remove uploaded documents.</CardDescription>
           </CardHeader>
-          <CardContent className="grid md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <h3 className="font-medium">Job Descriptions ({storedJds.length})</h3>
-              <div className="border rounded-md p-2 space-y-1 max-h-60 overflow-y-auto">
-                {storedJds.map((file, index) => (
-                  <div
-                    key={`${file.name}-${index}`}
-                    className="flex items-center justify-between p-2 rounded-md hover:bg-muted"
-                  >
-                    <span className="text-sm">{file.name}</span>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-6 w-6"
-                      onClick={() => handleRemoveFile(file.name, "jds")}
-                    >
-                      <XIcon className="h-4 w-4 text-destructive" />
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            </div>
-
+          <CardContent>
+            
             <div className="space-y-2">
               <h3 className="font-medium">Consultant Profiles ({storedProfiles.length})</h3>
               <div className="border rounded-md p-2 space-y-1 max-h-60 overflow-y-auto">
