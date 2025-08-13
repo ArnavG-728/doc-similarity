@@ -3,6 +3,7 @@ import mongoose, { Document, Schema, Types } from "mongoose";
 export type IComparisonResult = {
   profileId: Types.ObjectId;
   similarityScore: number;
+  name?: string; // optional candidate name snapshot
 };
 
 export type ITopProfile = IComparisonResult;
@@ -25,6 +26,7 @@ const ComparisonResultSchema = new Schema<IComparisonResult>(
       required: true,
     },
     similarityScore: { type: Number, required: true },
+    name: { type: String, required: false },
   },
   { _id: false }
 );
@@ -37,6 +39,7 @@ const TopProfileSchema = new Schema<ITopProfile>(
       required: true,
     },
     similarityScore: { type: Number, required: true },
+    name: { type: String, required: false },
   },
   { _id: false }
 );

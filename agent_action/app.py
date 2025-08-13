@@ -79,23 +79,51 @@ def communicate_node(state: AgentState):
 
     # --- Save to MongoDB ---
     job_obj_id = ObjectId(state["jd_id"])
+    
+    # Get ConsultantProfile collection to map names to IDs
+    consultant_collection = db["consultantprofiles"]
+    
+    # Build a map of profile names to MongoDB IDs
+    profile_name_to_id = {}
+    profile_names = [result["profile_name"] for result in state["comparison_results"]]
+    
+    # Query ConsultantProfile collection to get actual IDs
+    consultant_docs = consultant_collection.find({"name": {"$in": profile_names}}, {"name": 1})
+    for doc in consultant_docs:
+        profile_name_to_id[doc["name"]] = doc["_id"]
+    
+    print(f"Found {len(profile_name_to_id)} profile mappings: {profile_name_to_id}")
+    
     profile_ids = []
     results = []
     top_profiles = []
 
     for result in state["comparison_results"]:
-        profile_id = ObjectId(result["profile_id"])
-        profile_ids.append(profile_id)
-        results.append({
-            "profileId": profile_id,
-            "similarityScore": result["similarity_score"]
-        })
+        profile_name = result["profile_name"]
+        profile_id = profile_name_to_id.get(profile_name)
+        
+        if profile_id:
+            profile_ids.append(profile_id)
+            results.append({
+                "profileId": profile_id,
+                "similarityScore": result["similarity_score"],
+                "name": result.get("applicant_name", profile_name)  # Include candidate name
+            })
+        else:
+            print(f"⚠️ Warning: Could not find ConsultantProfile for name: {profile_name}")
 
     for prof in state["ranked_profiles"][:3]:
-        top_profiles.append({
-            "profileId": ObjectId(prof["profile_id"]),
-            "similarityScore": prof["similarity_score"]
-        })
+        profile_name = prof["profile_name"]
+        profile_id = profile_name_to_id.get(profile_name)
+        
+        if profile_id:
+            top_profiles.append({
+                "profileId": profile_id,
+                "similarityScore": prof["similarity_score"],
+                "name": prof.get("applicant_name", profile_name)  # Include candidate name
+            })
+        else:
+            print(f"⚠️ Warning: Could not find ConsultantProfile for top profile: {profile_name}")
 
     comparison_doc = {
         "jobIds": [job_obj_id],
@@ -105,9 +133,13 @@ def communicate_node(state: AgentState):
         "createdBy": ObjectId(state["created_by"]),
         "createdAt": datetime.utcnow()
     }
-    print(comparison_doc)
+    
+    print(f"📦 Saving ComparisonResult with {len(results)} results and {len(top_profiles)} top profiles")
+    print(f"Sample result: {results[0] if results else 'None'}")
+    print(f"Sample top profile: {top_profiles[0] if top_profiles else 'None'}")
+    
     comparison_collection.insert_one(comparison_doc)
-    print("📦 Stored comparison session in DB.")
+    print("✅ Successfully stored comparison session in DB.")
 
     return {}
 

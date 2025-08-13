@@ -5,22 +5,10 @@ import { useEffect, useState } from 'react';
 import LoginForm from '@/components/auth/LoginForm';
 import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, Briefcase } from 'lucide-react';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog';
-import InlineSignupForm from '@/components/auth/InlineSignupForm';
 
 export default function LoginPage() {
   const router = useRouter();
   const [error, setError] = useState('');
-  const [openRequestorSignup, setOpenRequestorSignup] = useState(false);
-  const [openRecruiterSignup, setOpenRecruiterSignup] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { user, signIn, signOut } = useAuth(); // ✅ includes current user
 
@@ -72,7 +60,7 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-6 space-y-6">
+    <main className="min-h-screen flex flex-col items-center justify-center p-4 space-y-4">
       {user ? (
         <>
           <p>Logged in as <strong>{user.email}</strong> ({user.role})</p>
@@ -80,85 +68,9 @@ export default function LoginPage() {
         </>
       ) : (
         <>
-          <div className="text-center space-y-2">
-            <h1 className="text-2xl font-semibold">Welcome</h1>
-            <p className="text-muted-foreground">Choose how you want to continue</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="w-full max-w-md">
-              <CardHeader className="text-center">
-                <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit mb-2">
-                  <Users size={20} />
-                </div>
-                <CardTitle className="text-xl">AR Requestor</CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-col items-center gap-3">
-                <LoginForm
-                  role="AR Requestor"
-                  onLogin={handleLogin}
-                  signupHref="/signup?role=AR%20Requestor"
-                  hideSignup
-                />
-                <Button variant="outline" onClick={() => setOpenRequestorSignup(true)}>Create new account</Button>
-              </CardContent>
-            </Card>
-
-            <Card className="w-full max-w-md">
-              <CardHeader className="text-center">
-                <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit mb-2">
-                  <Briefcase size={20} />
-                </div>
-                <CardTitle className="text-xl">Recruiter Admin</CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-col items-center gap-3">
-                <LoginForm
-                  role="Recruiter Admin"
-                  onLogin={handleLogin}
-                  signupHref="/signup?role=Recruiter%20Admin"
-                  hideSignup
-                />
-                <Button variant="outline" onClick={() => setOpenRecruiterSignup(true)}>Create new account</Button>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* AR Requestor Signup Dialog */}
-          <Dialog open={openRequestorSignup} onOpenChange={setOpenRequestorSignup}>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Sign Up — AR Requestor</DialogTitle>
-                <DialogDescription>Create your AR Requestor account.</DialogDescription>
-              </DialogHeader>
-              <InlineSignupForm
-                role="AR Requestor"
-                onSuccess={async ({ email }) => {
-                  await signIn({ email, role: 'AR Requestor' });
-                  setOpenRequestorSignup(false);
-                  router.push('/ar-dashboard');
-                }}
-              />
-            </DialogContent>
-          </Dialog>
-
-          {/* Recruiter Admin Signup Dialog */}
-          <Dialog open={openRecruiterSignup} onOpenChange={setOpenRecruiterSignup}>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Sign Up — Recruiter Admin</DialogTitle>
-                <DialogDescription>Create your recruiter admin account.</DialogDescription>
-              </DialogHeader>
-              <InlineSignupForm
-                role="Recruiter Admin"
-                onSuccess={async ({ email }) => {
-                  await signIn({ email, role: 'Recruiter Admin' });
-                  setOpenRecruiterSignup(false);
-                  router.push('/recruiter-admin');
-                }}
-              />
-            </DialogContent>
-          </Dialog>
-
+          <LoginForm
+            onLogin={handleLogin}
+          />
           {error && <p className="text-red-600">{error}</p>}
         </>
       )}
