@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useAuth, type Role } from '@/hooks/use-auth';
+import { ThemeSwitcher } from './theme-switcher';
 
 export default function Header() {
   const pathname = usePathname();
@@ -46,12 +47,15 @@ export default function Header() {
             </Link>
           ))}
         </nav>
-        {user && (
-          <Button variant="outline" size="sm" onClick={signOut}>
-            <LogOut className="mr-2 h-4 w-4" />
-            Logout
-          </Button>
-        )}
+        <div className="flex items-center gap-2">
+          <ThemeSwitcher />
+          {user && (
+            <Button variant="outline" size="sm" onClick={signOut}>
+              <LogOut className="mr-2 h-4 w-4" />
+              Logout
+            </Button>
+          )}
+        </div>
       </div>
     </header>
   );
