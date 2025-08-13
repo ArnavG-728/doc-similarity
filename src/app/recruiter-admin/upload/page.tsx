@@ -233,19 +233,6 @@ export default function UploadPage() {
           <CardContent className="space-y-6">
             <div className="grid md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="jd-upload" className="flex items-center gap-2">
-                  <FileText className="h-4 w-4" /> Job Descriptions
-                </Label>
-                <Input
-                  id="jd-upload"
-                  type="file"
-                  multiple
-                  accept=".txt,.pdf,.docx"
-                  ref={jdInputRef}
-                  onChange={(e) => setJobDescriptionFiles(Array.from(e.target.files || []))}
-                />
-              </div>
-              <div className="space-y-2">
                 <Label htmlFor="profiles-upload" className="flex items-center gap-2">
                   <Users className="h-4 w-4" /> Consultant Profiles
                 </Label>

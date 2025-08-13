@@ -98,11 +98,11 @@ class CommunicationAgent:
         return attachments
 
     def send_notification(
-        self,
-        ranked_profiles: List[Dict],
-        jd_info: Dict,
-        ar_requestor_email: str,
-        recruiter_email: str
+    self,
+    ranked_profiles: List[Dict],
+    jd_info: Dict,
+    ar_requestor_email: str,
+    recruiter_email: str
     ):
         """Sends notifications based on matching results, including resume attachments."""
         jd_title = jd_info.get("title", "Unknown Job")
@@ -110,13 +110,29 @@ class CommunicationAgent:
 
         top_3_matches = ranked_profiles[:3]
 
-        if top_3_matches and top_3_matches[0].get('similarity_score', 0) > 0.5:
-            # Fetch attachments
-            attachments = self.fetch_profile_attachments(top_3_matches)
+        # Modify list so low-similarity profiles get replaced with placeholder
+        filtered_matches = []
+        for match in top_3_matches:
+            if match.get('similarity_score', 0) >= 0.5:
+                filtered_matches.append(match)
+            else:
+                filtered_matches.append({
+                    "profile_name": "(No profile over 50% similarity found)",
+                    "applicant_name": "",
+                    "similarity_score": 0,
+                    "reasoning": ""
+                })
+
+        # Send only if there is at least one profile ≥ 0.50
+        if any(m.get('similarity_score', 0) >= 0.5 for m in top_3_matches):
+            # Fetch attachments for profiles ≥ 0.50
+            attachments = self.fetch_profile_attachments(
+                [m for m in top_3_matches if m.get('similarity_score', 0) >= 0.5]
+            )
 
             # Send to AR Requestor with attachments
             email_subject = f"Top 3 Consultant Matches for {jd_title}"
-            email_body = self.generate_email_content(jd_title, top_3_matches)
+            email_body = self.generate_email_content(jd_title, filtered_matches)
             send_email(ar_requestor_email, email_subject, email_body, attachments)
             logger.info(f"📧 Email sent to AR Requestor: {ar_requestor_email} with {len(attachments)} resume(s).")
 

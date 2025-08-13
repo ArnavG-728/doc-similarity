@@ -74,15 +74,15 @@ class ComparisonAgent:
 
                 **Step 4: Weighted Scoring Calculation**
                 <scoring_calculation>
-                Apply these weights to calculate similarity score:
-                - Core technical skills alignment: ___% × 0.35 = ___
-                - Experience relevance and depth: ___% × 0.25 = ___
-                - Educational/certification match: ___% × 0.15 = ___
-                - Soft skills and competencies: ___% × 0.15 = ___
-                - Industry knowledge relevance: ___% × 0.10 = ___
-                - Base score total: ___
-                - Bonus points (only if base score >0.85): +___
-                - Final similarity score: ___
+                Apply these weights to calculate similarity score (to 3 decimal places):
+                - Core technical skills alignment: ___% × 0.350 = ___
+                - Experience relevance and depth: ___% × 0.250 = ___
+                - Educational/certification match: ___% × 0.150 = ___
+                - Soft skills and competencies: ___% × 0.150 = ___
+                - Industry knowledge relevance: ___% × 0.100 = ___
+                - Base score total: ___.___
+                - Bonus points (only if base score >0.850): +___.___
+                - Final similarity score: ___.___
                 </scoring_calculation>
 
                 **Step 5: Comprehensive Assessment**
@@ -103,22 +103,62 @@ class ComparisonAgent:
                 - Technical skills must show practical application and depth, not superficial familiarity
                 - Leadership and soft skills must have concrete examples with measurable impact
                 - Reject vague, unsubstantiated, or generic claims without supporting evidence
-                - Apply the 85% threshold rigorously before considering bonus qualifications
+                - Apply the 0.850 threshold rigorously before considering bonus qualifications
                 </strictness_criteria>
 
-                <scoring_guidelines>
-                Similarity Score Criteria (0.0 - 1.0):
-                - 0.90-1.0: Exceptional match - meets >95% of core requirements with valuable bonus skills
-                - 0.80-0.89: Strong match - meets 85-95% of core requirements with minor gaps
-                - 0.70-0.79: Good match - meets 70-84% of core requirements with manageable gaps
-                - 0.60-0.69: Moderate match - meets 55-69% of requirements with notable gaps
-                - 0.50-0.59: Weak match - meets 40-54% of requirements with significant gaps
-                - 0.00-0.49: Poor match - meets <40% of core requirements
+                <enhanced_scoring_guidelines>
+                Similarity Score Criteria (0.000 - 1.000):
+                
+                **Exceptional Tier (0.900-1.000):**
+                - 0.950-1.000: Perfect/Near-perfect match - exceeds 98% of core requirements with exceptional bonus skills
+                - 0.925-0.949: Outstanding match - meets 96-98% of core requirements with strong bonus qualifications
+                - 0.900-0.924: Excellent match - meets 94-96% of core requirements with valuable additional skills
+                
+                **Strong Tier (0.800-0.899):**
+                - 0.875-0.899: Very strong match - meets 92-94% of core requirements with minor gaps
+                - 0.850-0.874: Strong match - meets 88-92% of core requirements with manageable gaps
+                - 0.825-0.849: Good strong match - meets 84-88% of core requirements with some notable gaps
+                - 0.800-0.824: Solid match - meets 80-84% of core requirements with moderate gaps
+                
+                **Moderate Tier (0.600-0.799):**
+                - 0.775-0.799: Upper moderate match - meets 76-80% of requirements with manageable training gaps
+                - 0.750-0.774: Good moderate match - meets 72-76% of requirements with notable skill gaps
+                - 0.725-0.749: Mid-moderate match - meets 68-72% of requirements with significant gaps
+                - 0.700-0.724: Lower moderate match - meets 64-68% of requirements with major gaps
+                - 0.675-0.699: Weak moderate match - meets 60-64% of requirements with extensive gaps
+                - 0.650-0.674: Poor moderate match - meets 56-60% of requirements with critical gaps
+                - 0.625-0.649: Very weak match - meets 52-56% of requirements with severe limitations
+                - 0.600-0.624: Minimal match - meets 48-52% of requirements with fundamental gaps
+                
+                **Weak Tier (0.400-0.599):**
+                - 0.575-0.599: Upper weak match - meets 44-48% of requirements with major deficiencies
+                - 0.550-0.574: Mid-weak match - meets 40-44% of requirements with critical deficiencies
+                - 0.525-0.549: Lower weak match - meets 36-40% of requirements with severe deficiencies
+                - 0.500-0.524: Very weak match - meets 32-36% of requirements with extensive deficiencies
+                - 0.475-0.499: Extremely weak match - meets 28-32% of requirements with fundamental misalignment
+                - 0.450-0.474: Poor weak match - meets 24-28% of requirements with major misalignment
+                - 0.425-0.449: Very poor match - meets 20-24% of requirements with severe misalignment
+                - 0.400-0.424: Minimal weak match - meets 16-20% of requirements with critical misalignment
+                
+                **Poor Tier (0.000-0.399):**
+                - 0.375-0.399: Upper poor match - meets 12-16% of requirements with fundamental incompatibility
+                - 0.350-0.374: Mid-poor match - meets 8-12% of requirements with severe incompatibility
+                - 0.325-0.349: Lower poor match - meets 4-8% of requirements with critical incompatibility
+                - 0.300-0.324: Very poor match - meets 0-4% of requirements with complete misalignment
+                - 0.200-0.299: Extremely poor match - minimal to no relevant qualifications
+                - 0.100-0.199: Critically poor match - fundamentally incompatible profile
+                - 0.000-0.099: No match - completely irrelevant or insufficient profile information
 
-                **Bonus Qualification Rule**: Only apply bonus points (max +0.10) when base similarity score exceeds 0.85, representing additional valuable skills beyond JD requirements.
-                </scoring_guidelines>
+                **Precision Scoring Instructions:**
+                - Calculate each component score to 3 decimal places (e.g., 0.847, 0.923)
+                - Round final scores to nearest 0.001 (three decimal places)
+                - Justify score precision with specific evidence and detailed reasoning
+                - For scores within 0.005 of tier boundaries, provide additional justification
+                
+                **Bonus Qualification Rule**: Only apply bonus points (max +0.100) when base similarity score exceeds 0.850, representing additional valuable skills beyond JD requirements. Bonus points should be calculated to 3 decimal places (e.g., +0.025, +0.067).
+                </enhanced_scoring_guidelines>
 
-                For each consultant profile, provide a similarity score between 0.0 and 1.0 (where 1.0 is a perfect match) and comprehensive reasoning following the Chain of Thought framework above. The similarity score must be based on rigorous analysis of skills, experience, and contextual relevance between the JD and profile.
+                For each consultant profile, provide a similarity score between 0.000 and 1.000 (where 1.000 is a perfect match) and comprehensive reasoning following the Chain of Thought framework above. The similarity score must be based on rigorous analysis of skills, experience, and contextual relevance between the JD and profile, calculated to three decimal places for maximum precision.
 
                 Job Description:
                 {jd_content}
