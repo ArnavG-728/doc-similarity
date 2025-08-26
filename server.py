@@ -471,6 +471,8 @@ if __name__ == "__main__":
     print("📊 Generate Report endpoint: http://localhost:8000/generate-report")
     print("📋 Generate JD Report endpoint: http://localhost:8000/generate-jd-report")
     print("👤 Generate Profile Report endpoint: http://localhost:8000/generate-profile-report")
-    # Render provides PORT; default to 8000 locally. Avoid reload in production.
+    # Render provides PORT environment variable; default to 8000 locally.
+    # Disable reload by default in production; enable by setting RELOAD=true.
     port = int(os.getenv("PORT", "8000"))
-    uvicorn.run("server:app", host="0.0.0.0", port=port, reload=os.getenv("RELOAD", "true").lower() == "true")
+    reload_flag = os.getenv("RELOAD", "true").lower() == "true"
+    uvicorn.run("server:app", host="0.0.0.0", port=port, reload=reload_flag)
