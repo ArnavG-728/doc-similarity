@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: fastapi-backend
+    env: python
+    plan: free
+    buildCommand: |
+      pip install -U pip setuptools wheel
+      pip install -r agent_action/requirements.txt
+    startCommand: uvicorn server:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: DB_NAME
+        value: your_db_name
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: SENDER_EMAIL
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: AR_REQUESTOR_EMAIL
+        sync: false
+      - key: RECRUITER_EMAIL
+        sync: false
+      - key: RELOAD
+        value: "false"

@@ -12,17 +12,31 @@
 # grpcio-tools
 
 
-fastapi==0.104.1
-uvicorn==0.24.0
-python-dotenv==1.0.0
-langchain-google-genai==0.0.3
-langchain-core==0.1.8
-langgraph==0.0.10
-pydantic==1.10.13
-PyMuPDF==1.23.8
-python-docx==1.1.0
-python-multipart==0.0.9
-grpcio==1.56.2
-grpcio-tools==1.56.2
-pymongo
+# Backend dependencies for Render
+# Notes:
+# - FastAPI 0.103.x works with Pydantic v1, aligning with older LangChain pins
+# - Python 3.11 recommended on Render (add runtime.txt with `python-3.11.9`)
+# - Avoid grpcio-tools unless you actually compile protos at build time
 
+fastapi
+uvicorn
+python-dotenv
+
+# LangChain + Google GenAI
+langchain-google-genai
+langchain-core
+langgraph
+
+# Pydantic v1 to match the above
+pydantic
+
+# Document processing
+PyMuPDF
+python-docx
+python-multipart
+
+# gRPC (avoid grpcio-tools unless needed)
+grpcio
+
+# Database
+pymongo

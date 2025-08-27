@@ -197,7 +197,7 @@ async def run_agent(request: Request):
         
         for result in comparisons:
             print("📍Result entry:", result)  # helpful debug
-            pid = ObjectId(result.get("profile_id") or result.get("profileId"))  # ✅ robust key handling
+            pid = ObjectId(result.get("profile_id") or result.get("profileId"))  # robust key handling
             profile_ids.append(pid)
             results.append({
                 "profileId": pid,
@@ -207,7 +207,7 @@ async def run_agent(request: Request):
         for prof in ranked_profiles[:3]:
             print("🏆 Top profile entry:", prof)  # helpful debug
             top_profiles.append({
-                "profileId": ObjectId(prof.get("profile_id") or prof.get("profileId")),  # ✅ fixed
+                "profileId": ObjectId(prof.get("profile_id") or prof.get("profileId")),  # fixed
                 "similarityScore": prof["similarity_score"]
         })
 
@@ -218,7 +218,7 @@ async def run_agent(request: Request):
             "profileIds": profile_ids,
             "results": results,
             "topProfiles": top_profiles,
-            "createdBy": ObjectId(data.get("user_id")),  # Must be sent from frontend
+            "createdBy": ObjectId(data.get("user_id")),  # Accept either key
             "createdAt": datetime.utcnow()
         }
 
@@ -471,4 +471,8 @@ if __name__ == "__main__":
     print("📊 Generate Report endpoint: http://localhost:8000/generate-report")
     print("📋 Generate JD Report endpoint: http://localhost:8000/generate-jd-report")
     print("👤 Generate Profile Report endpoint: http://localhost:8000/generate-profile-report")
-    uvicorn.run("server:app", host="0.0.0.0", port=8000, reload=True) 
+    # Render provides PORT environment variable; default to 8000 locally.
+    # Disable reload by default in production; enable by setting RELOAD=true.
+    port = int(os.getenv("PORT", "8000"))
+    reload_flag = os.getenv("RELOAD", "true").lower() == "true"
+    uvicorn.run("server:app", host="0.0.0.0", port=port, reload=reload_flag)

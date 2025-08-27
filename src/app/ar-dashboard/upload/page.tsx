@@ -16,6 +16,9 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 
+// Backend base URL
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+
 interface UploadedFile {
   name: string;
   content: string;
@@ -33,7 +36,7 @@ export default function UploadPage() {
   useEffect(() => {
     fetchJds();
 
-    fetch("http://localhost:8000/health")
+    fetch(`${API_BASE}/health`)
       .then(() => setBackendStatus("online"))
       .catch(() => setBackendStatus("offline"));
   }, []);
@@ -61,7 +64,7 @@ export default function UploadPage() {
   const uploadToProcessingServer = async (file: File) => {
     const formData = new FormData();
     formData.append("file", file);
-    const res = await fetch("http://localhost:8000/process-upload", {
+    const res = await fetch(`${API_BASE}/process-upload`, {
       method: "POST",
       body: formData,
     });

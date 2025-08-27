@@ -107,7 +107,8 @@ export async function runAgentWorkflow({
       created_by: user_id
     };
 
-    const response = await fetch('http://localhost:8000/run-agent', {
+    const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
+    const response = await fetch(`${API_BASE}/run-agent`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -123,8 +124,8 @@ export async function runAgentWorkflow({
     const result = await response.json();
     return result;
   } catch (error) {
-    if (error instanceof TypeError && error.message.includes('fetch')) {
-      throw new Error('Cannot connect to backend server. Is it running on http://localhost:8000?');
+    if (error instanceof TypeError && (error as TypeError).message.includes('fetch')) {
+      throw new Error('Cannot connect to backend server. Is it running and is NEXT_PUBLIC_API_BASE_URL set?');
     }
     throw error;
   }
