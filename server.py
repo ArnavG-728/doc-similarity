@@ -218,7 +218,7 @@ async def run_agent(request: Request):
             "profileIds": profile_ids,
             "results": results,
             "topProfiles": top_profiles,
-            "createdBy": ObjectId(data.get("user_id") or data.get("created_by")),  # Accept either key
+            "createdBy": ObjectId(data.get("user_id")),  # Accept either key
             "createdAt": datetime.utcnow()
         }
 

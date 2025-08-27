@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useMemo, useEffect } from 'react';
@@ -9,6 +8,9 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Search, FileText, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+
+// Backend base URL
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
 
 interface UploadedFile {
     name: string;
@@ -70,7 +72,7 @@ export default function JdManagementPage() {
         }
       ];
 
-      const response = await fetch('http://localhost:8000/generate-jd-report', {
+      const response = await fetch(`${API_BASE}/generate-jd-report`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

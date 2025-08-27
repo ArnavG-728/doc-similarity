@@ -8,6 +8,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { useToast } from '@/hooks/use-toast';
 
+// Backend base URL
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
+
 export default function RecruiterAdminPage() {
   const [recentJds, setRecentJds] = useState<Array<{name: string, content: string}>>([]);
   const [generatingReports, setGeneratingReports] = useState<Set<string>>(new Set());
@@ -52,7 +55,7 @@ export default function RecruiterAdminPage() {
         }
       ];
 
-      const response = await fetch('http://localhost:8000/generate-jd-report', {
+      const response = await fetch(`${API_BASE}/generate-jd-report`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
