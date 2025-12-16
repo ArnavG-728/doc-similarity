@@ -62,6 +62,7 @@ class DocumentReport(BaseModel):
 class ReportAgent:
     def __init__(self, google_api_key: str):
         model_name = os.getenv("GOOGLE_MODEL", "gemini-2.0-flash")
+        
         self.llm = ChatGoogleGenerativeAI(model=model_name, google_api_key=google_api_key)
         self.parser = JsonOutputParser(pydantic_object=DocumentReport)
         
