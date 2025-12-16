@@ -22,7 +22,9 @@ class ComparisonOutput(BaseModel):
 
 class ComparisonAgent:
     def __init__(self, google_api_key: str):
-        self.llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", google_api_key=google_api_key)
+        model_name = os.getenv("GOOGLE_MODEL", "gemini-2.0-flash")
+        
+        self.llm = ChatGoogleGenerativeAI(model=model_name, google_api_key=google_api_key)
         self.parser = JsonOutputParser(pydantic_object=ComparisonOutput)
 
         self.prompt = PromptTemplate(
